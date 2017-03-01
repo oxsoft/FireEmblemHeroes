@@ -2,8 +2,15 @@ import java.awt.*
 import javax.swing.JFrame
 import javax.swing.JPanel
 
-
 fun main(args: Array<String>) {
+    val frame = JFrame()
+    frame.setSize(630, 850)
+    frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+    frame.isVisible = true
+    frame.add(createGUI(initGameState()))
+}
+
+private fun initGameState(): GameState {
     val me1 = Unit(Side.ME, 19, 1, 1, 1, 1, MotionType.WALK, WeaponType.AX, 1, 1, 1, null, null, null)
     val me2 = Unit(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.NINJA, 1, 1, 1, null, null, null)
     val me3 = Unit(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, 1, 1, 1, null, null, null)
@@ -25,15 +32,11 @@ fun main(args: Array<String>) {
     enemy2.y = 4
     enemy3.x = 5
     enemy3.y = 5
-    createAndShowGUI(GameState(Fields.STAGE_1_1, arrayOf(me1, me2, me3, me4, enemy1, enemy2, enemy3)))
+    return GameState(Fields.STAGE_1_1, arrayOf(me1, me2, me3, me4, enemy1, enemy2, enemy3))
 }
 
-private fun createAndShowGUI(gameState: GameState) {
-    val frame = JFrame()
-    frame.setSize(630, 850)
-    frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-    frame.isVisible = true
-    val panel = object : JPanel() {
+private fun createGUI(gameState: GameState): JPanel {
+    return object : JPanel() {
         override fun paint(g: Graphics?) {
             super.paint(g)
             if (g !is Graphics2D) return
@@ -74,5 +77,4 @@ private fun createAndShowGUI(gameState: GameState) {
             }
         }
     }
-    frame.add(panel)
 }
