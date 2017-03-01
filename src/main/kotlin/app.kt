@@ -4,13 +4,13 @@ import javax.swing.JPanel
 
 
 fun main(args: Array<String>) {
-    val me1 = Unit(Side.ME, 19, 1, 1, 1, 1, MotionType.WALK, WeaponType.AX, 1, 1, 1, 1, 1, 1)
-    val me2 = Unit(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.NINJA, 1, 1, 1, 1, 1, 1)
-    val me3 = Unit(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, 1, 1, 1, 1, 1, 1)
-    val me4 = Unit(Side.ME, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.GREEN_MAGIC, 1, 1, 1, 1, 1, 1)
-    val enemy1 = Unit(Side.ENEMY, 17, 1, 1, 1, 1, MotionType.WALK, WeaponType.SPEAR, 1, 1, 1, 1, 1, 1)
-    val enemy2 = Unit(Side.ENEMY, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, 1, 1, 1, 1, 1, 1)
-    val enemy3 = Unit(Side.ENEMY, 13, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, 1, 1, 1, 1, 1, 1)
+    val me1 = Unit(Side.ME, 19, 1, 1, 1, 1, MotionType.WALK, WeaponType.AX, 1, 1, 1, null, null, null)
+    val me2 = Unit(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.NINJA, 1, 1, 1, null, null, null)
+    val me3 = Unit(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, 1, 1, 1, null, null, null)
+    val me4 = Unit(Side.ME, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.GREEN_MAGIC, 1, 1, 1, null, null, null)
+    val enemy1 = Unit(Side.ENEMY, 17, 1, 1, 1, 1, MotionType.WALK, WeaponType.SPEAR, 1, 1, 1, null, null, null)
+    val enemy2 = Unit(Side.ENEMY, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, 1, 1, 1, null, null, null)
+    val enemy3 = Unit(Side.ENEMY, 13, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, 1, 1, 1, null, null, null)
     me1.x = 0
     me1.y = 3
     me2.x = 1
@@ -36,46 +36,41 @@ private fun createAndShowGUI(gameState: GameState) {
     val panel = object : JPanel() {
         override fun paint(g: Graphics?) {
             super.paint(g)
+            if (g !is Graphics2D) return
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+            g.setFont(Font("", Font.PLAIN, 36))
+
             gameState.field.cells.withIndex().forEach {
                 val y = it.index
                 it.value.withIndex().forEach {
                     val x = it.index
                     when (it.value) {
-                        CellType.NORMAL -> g?.color = Color.WHITE
-                        CellType.FOREST -> g?.color = Color.GREEN
-                        CellType.RIVER -> g?.color = Color.CYAN
-                        CellType.WALL -> g?.color = Color.BLACK
+                        CellType.NORMAL -> g.color = Color.WHITE
+                        CellType.FOREST -> g.color = Color.GREEN
+                        CellType.RIVER -> g.color = Color.CYAN
+                        CellType.WALL -> g.color = Color.BLACK
                     }
-                    g?.fillRect(x * 100, y * 100, 100, 100)
+                    g.fillRect(x * 100, y * 100, 100, 100)
                 }
             }
+
             gameState.units.forEach {
                 when (it.side) {
-                    Side.ME -> g?.color = Color.BLUE
-                    Side.ENEMY -> g?.color = Color.RED
+                    Side.ME -> g.color = Color.BLUE
+                    Side.ENEMY -> g.color = Color.RED
                 }
-                g?.fillOval(it.x * 100, it.y * 100, 100, 100)
-                when (it.weaponType) {
-                    WeaponType.SWORD -> g?.color = Color.RED
-                    WeaponType.SPEAR -> g?.color = Color.BLUE
-                    WeaponType.AX -> g?.color = Color.GREEN
-                    WeaponType.BOW -> g?.color = Color.GRAY
-                    WeaponType.NINJA -> g?.color = Color.GRAY
-                    WeaponType.RED_MAGIC -> g?.color = Color.RED
-                    WeaponType.BLUE_MAGIC -> g?.color = Color.BLUE
-                    WeaponType.GREEN_MAGIC -> g?.color = Color.GREEN
-                    WeaponType.WAND -> g?.color = Color.GRAY
-                    WeaponType.RED_DRAGON -> g?.color = Color.RED
-                    WeaponType.BLUE_DRAGON -> g?.color = Color.BLUE
-                    WeaponType.GREEN_DRAGON -> g?.color = Color.GREEN
+                g.fillOval(it.x * 100, it.y * 100, 100, 100)
+
+                when (AttackType.getType(it.weaponType)) {
+                    AttackType.RED -> g.color = Color.RED
+                    AttackType.BLUE -> g.color = Color.BLUE
+                    AttackType.GREEN -> g.color = Color.GREEN
+                    AttackType.NONE -> g.color = Color.GRAY
                 }
-                g?.fillOval(it.x * 100 + 3, it.y * 100 + 3, 94, 94)
-                if (g is Graphics2D) {
-                    g.color = Color.WHITE
-                    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-                    g.setFont(Font("", Font.PLAIN, 36))
-                    g.drawString(it.hp.toString(), it.x * 100 + 30, it.y * 100 + 60)
-                }
+                g.fillOval(it.x * 100 + 3, it.y * 100 + 3, 94, 94)
+
+                g.color = Color.WHITE
+                g.drawString(it.hp.toString(), it.x * 100 + 30, it.y * 100 + 60)
             }
         }
     }
