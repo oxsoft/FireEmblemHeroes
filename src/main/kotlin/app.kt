@@ -2,6 +2,9 @@ import java.awt.*
 import javax.swing.JFrame
 import javax.swing.JPanel
 
+fun Graphics.fillRect(position: Vector2, size: Vector2) = this.fillRect(position.x, position.y, size.x, size.y)
+fun Graphics.fillCircle(position: Vector2, radius: Int) = this.fillOval(position.x, position.y, radius, radius)
+
 fun main(args: Array<String>) {
     val frame = JFrame()
     frame.setSize(630, 850)
@@ -46,7 +49,7 @@ private fun createGUI(gameState: GameState): JPanel {
                         CellType.RIVER -> g.color = Color.CYAN
                         CellType.WALL -> g.color = Color.BLACK
                     }
-                    g.fillRect(x * 100, y * 100, 100, 100)
+                    g.fillRect(Vector2(x, y) * 100, Vector2(100, 100))
                 }
             }
 
@@ -55,7 +58,7 @@ private fun createGUI(gameState: GameState): JPanel {
                     Side.ME -> g.color = Color.BLUE
                     Side.ENEMY -> g.color = Color.RED
                 }
-                g.fillOval(it.position.x * 100, it.position.y * 100, 100, 100)
+                g.fillCircle(it.position * 100, 100)
 
                 when (AttackType.getType(it.weaponType)) {
                     AttackType.RED -> g.color = Color.RED
@@ -63,7 +66,7 @@ private fun createGUI(gameState: GameState): JPanel {
                     AttackType.GREEN -> g.color = Color.GREEN
                     AttackType.NONE -> g.color = Color.GRAY
                 }
-                g.fillOval(it.position.x * 100 + 3, it.position.y * 100 + 3, 94, 94)
+                g.fillCircle(it.position * 100 + Vector2(3, 3), 94)
 
                 g.color = Color.WHITE
                 g.drawString(it.hp.toString(), it.position.x * 100 + 30, it.position.y * 100 + 60)
