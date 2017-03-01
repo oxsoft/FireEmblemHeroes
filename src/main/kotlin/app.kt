@@ -6,8 +6,8 @@ fun main(args: Array<String>) {
     val frame = JFrame()
     frame.setSize(630, 850)
     frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-    frame.isVisible = true
     frame.add(createGUI(initGameState()))
+    frame.isVisible = true
 }
 
 private fun initGameState(): GameState {
@@ -18,20 +18,13 @@ private fun initGameState(): GameState {
     val enemy1 = Unit(Side.ENEMY, 17, 1, 1, 1, 1, MotionType.WALK, WeaponType.SPEAR, 1, 1, 1, null, null, null)
     val enemy2 = Unit(Side.ENEMY, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, 1, 1, 1, null, null, null)
     val enemy3 = Unit(Side.ENEMY, 13, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, 1, 1, 1, null, null, null)
-    me1.x = 0
-    me1.y = 3
-    me2.x = 1
-    me2.y = 3
-    me3.x = 0
-    me3.y = 4
-    me4.x = 1
-    me4.y = 4
-    enemy1.x = 4
-    enemy1.y = 3
-    enemy2.x = 5
-    enemy2.y = 4
-    enemy3.x = 5
-    enemy3.y = 5
+    me1.position = Vector2(0, 3)
+    me2.position = Vector2(1, 3)
+    me3.position = Vector2(0, 4)
+    me4.position = Vector2(1, 4)
+    enemy1.position = Vector2(4, 3)
+    enemy2.position = Vector2(5, 4)
+    enemy3.position = Vector2(5, 5)
     return GameState(Fields.STAGE_1_1, arrayOf(me1, me2, me3, me4, enemy1, enemy2, enemy3))
 }
 
@@ -62,7 +55,7 @@ private fun createGUI(gameState: GameState): JPanel {
                     Side.ME -> g.color = Color.BLUE
                     Side.ENEMY -> g.color = Color.RED
                 }
-                g.fillOval(it.x * 100, it.y * 100, 100, 100)
+                g.fillOval(it.position.x * 100, it.position.y * 100, 100, 100)
 
                 when (AttackType.getType(it.weaponType)) {
                     AttackType.RED -> g.color = Color.RED
@@ -70,10 +63,10 @@ private fun createGUI(gameState: GameState): JPanel {
                     AttackType.GREEN -> g.color = Color.GREEN
                     AttackType.NONE -> g.color = Color.GRAY
                 }
-                g.fillOval(it.x * 100 + 3, it.y * 100 + 3, 94, 94)
+                g.fillOval(it.position.x * 100 + 3, it.position.y * 100 + 3, 94, 94)
 
                 g.color = Color.WHITE
-                g.drawString(it.hp.toString(), it.x * 100 + 30, it.y * 100 + 60)
+                g.drawString(it.hp.toString(), it.position.x * 100 + 30, it.position.y * 100 + 60)
             }
         }
     }
