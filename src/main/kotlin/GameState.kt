@@ -1,14 +1,16 @@
 class GameState(val field: Field, val status: Array<Status>) {
     var turn = Side.ME
 
-    fun move(status: Status, motion: Array<Direction>): GameState? {
-        if (!this.status.contains(status)) return null
-        if (status.character.motionType.getRange() < motion.size) return null
+    fun move(index: Int, motion: Array<Direction>): GameState? {
+        val target = status[index]
+        if (target.character.motionType.getRange() < motion.size) return null
+        var position = target.position
         motion.forEach {
-            if (!field.get(status.position + it.v).isPassable(status.character.motionType)) return null
-            // status.position += it.v // TODO
+            if (!field.get(target.position + it.v).isPassable(target.character.motionType)) return null
+            position += it.v // TODO
         }
-        return null
+        status[index] = Status(target.character, target.hp, position, true)
+        return GameState(field, status)
     }
 
     fun attack(offense: Status, defense: Status): GameState? {

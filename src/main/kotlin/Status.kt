@@ -5,25 +5,31 @@ data class Status(val character: Character, val hp: Int, val position: Vector2, 
 
     fun attack(target: Status): Pair<Status, Status>? {
         if (acted) return null
-        if (damage(this, target) == 0) {
-            return null
+        var myHp = hp
+        var targetHp = target.hp
+        targetHp -= damage(this, target)
+        if (targetHp <= 0) {
+            return Pair<Status, Status>(Status(character, hp, position, true), Status(target.character, 0, target.position, target.acted))
         }
         if (character.weaponType.getRange() == character.weaponType.getRange()) {
-            if (damage(target, this) == 0) {
-                return null
+            myHp -= damage(target, this)
+            if (myHp <= 0) {
+                return Pair<Status, Status>(Status(character, 0, position, true), Status(target.character, targetHp, target.position, target.acted))
             }
         }
         if (character.agility - target.character.agility >= 5) {
-            if (damage(this, target) == 0) {
-                return null
+            targetHp -= damage(this, target)
+            if (targetHp <= 0) {
+                return Pair<Status, Status>(Status(character, myHp, position, true), Status(target.character, 0, target.position, target.acted))
             }
         }
         if (target.character.agility - character.agility >= 5) {
-            if (damage(target, this) == 0) {
-                return null
+            myHp -= damage(target, this)
+            if (myHp <= 0) {
+                return Pair<Status, Status>(Status(character, 0, position, true), Status(target.character, targetHp, target.position, target.acted))
             }
         }
-        return Pair<Status, Status>(Status(character, hp, position, true), target)
+        return Pair<Status, Status>(Status(character, myHp, position, true), Status(target.character, targetHp, target.position, target.acted))
     }
 
     fun assist(target: Status): Pair<Status, Status>? {
@@ -33,9 +39,8 @@ data class Status(val character: Character, val hp: Int, val position: Vector2, 
 
     private fun damage(offense: Status, defense: Status): Int {
         val def = if (offense.character.weaponType.isMagic()) defense.character.magicDefense else defense.character.defense
-        // if (offense.character.attack > def) defense.hp -= offense.character.attack - def
-        // if (defense.hp < 0) defense.hp = 0
-        return defense.hp
+        val damage = offense.character.attack - def
+        return if (damage > 0) damage else 0
     }
 
     companion object {
