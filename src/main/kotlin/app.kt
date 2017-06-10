@@ -15,18 +15,18 @@ fun main(args: Array<String>) {
     frame.isVisible = true
 
     Thread.sleep(1000)
-    gameState.move(gameState.units[1], arrayOf(Direction.RIGHT))
+    gameState.move(gameState.characters[1], arrayOf(Direction.RIGHT))
     panel.repaint()
 }
 
 private fun initGameState(): GameState {
-    val me1 = Unit(Side.ME, 19, 1, 1, 1, 1, MotionType.WALK, WeaponType.AX, null, null, null, null, null, null)
-    val me2 = Unit(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.NINJA, null, null, null, null, null, null)
-    val me3 = Unit(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
-    val me4 = Unit(Side.ME, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.GREEN_MAGIC, null, null, null, null, null, null)
-    val enemy1 = Unit(Side.ENEMY, 17, 1, 1, 1, 1, MotionType.WALK, WeaponType.SPEAR, null, null, null, null, null, null)
-    val enemy2 = Unit(Side.ENEMY, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
-    val enemy3 = Unit(Side.ENEMY, 13, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
+    val me1 = Character(Side.ME, 19, 1, 1, 1, 1, MotionType.WALK, WeaponType.AX, null, null, null, null, null, null)
+    val me2 = Character(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.NINJA, null, null, null, null, null, null)
+    val me3 = Character(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
+    val me4 = Character(Side.ME, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.GREEN_MAGIC, null, null, null, null, null, null)
+    val enemy1 = Character(Side.ENEMY, 17, 1, 1, 1, 1, MotionType.WALK, WeaponType.SPEAR, null, null, null, null, null, null)
+    val enemy2 = Character(Side.ENEMY, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
+    val enemy3 = Character(Side.ENEMY, 13, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
     me1.position = Vector2(0, 3)
     me2.position = Vector2(1, 3)
     me3.position = Vector2(0, 4)
@@ -59,7 +59,7 @@ private fun createGUI(gameState: GameState): JPanel {
                 }
             }
 
-            gameState.units.forEach {
+            gameState.characters.forEach {
                 when (it.side) {
                     Side.ME -> g.color = Color.BLUE
                     Side.ENEMY -> g.color = Color.RED

@@ -1,25 +1,25 @@
-class GameState(val field: Field, val units: Array<Unit>) {
+class GameState(val field: Field, val characters: Array<Character>) {
     var turn = Side.ME
 
-    fun move(unit: Unit, motion: Array<Direction>) {
-        if (!units.contains(unit)) return
-        if (unit.motionType.getRange() < motion.size) return
+    fun move(character: Character, motion: Array<Direction>) {
+        if (!characters.contains(character)) return
+        if (character.motionType.getRange() < motion.size) return
         motion.forEach {
-            if (!field.get(unit.position + it.v).isPassable(unit.motionType)) return
-            unit.position += it.v // TODO
+            if (!field.get(character.position + it.v).isPassable(character.motionType)) return
+            character.position += it.v // TODO
         }
     }
 
-    fun attack(offense: Unit, defense: Unit) {
-        if (!units.contains(offense)) return
-        if (!units.contains(defense)) return
+    fun attack(offense: Character, defense: Character) {
+        if (!characters.contains(offense)) return
+        if (!characters.contains(defense)) return
         if (offense.position.distance(defense.position) != offense.weaponType.getRange()) return
         offense.attack(defense)
     }
 
-    fun assist(offense: Unit, defense: Unit) {
-        if (!units.contains(offense)) return
-        if (!units.contains(defense)) return
+    fun assist(offense: Character, defense: Character) {
+        if (!characters.contains(offense)) return
+        if (!characters.contains(defense)) return
         // TODO: distance
         offense.assist(defense)
     }
