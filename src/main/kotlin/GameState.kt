@@ -1,26 +1,30 @@
-class GameState(val field: Field, val characters: Array<Character>) {
+class GameState(val field: Field, val status: Array<Status>) {
     var turn = Side.ME
 
-    fun move(character: Character, motion: Array<Direction>) {
-        if (!characters.contains(character)) return
-        if (character.motionType.getRange() < motion.size) return
+    fun move(status: Status, motion: Array<Direction>): GameState? {
+        if (!this.status.contains(status)) return null
+        if (status.character.motionType.getRange() < motion.size) return null
         motion.forEach {
-            if (!field.get(character.position + it.v).isPassable(character.motionType)) return
-            character.position += it.v // TODO
+            if (!field.get(status.position + it.v).isPassable(status.character.motionType)) return null
+            // status.position += it.v // TODO
         }
+        return null
     }
 
-    fun attack(offense: Character, defense: Character) {
-        if (!characters.contains(offense)) return
-        if (!characters.contains(defense)) return
-        if (offense.position.distance(defense.position) != offense.weaponType.getRange()) return
-        offense.attack(defense)
+    fun attack(offense: Status, defense: Status): GameState? {
+        if (!status.contains(offense)) return null
+        if (!status.contains(defense)) return null
+        if (offense.position.distance(defense.position) != offense.character.weaponType.getRange()) return null
+        val of: Pair<Status, Status>? = offense.attack(defense)
+        of ?: return null
+        return GameState(field, status)
     }
 
-    fun assist(offense: Character, defense: Character) {
-        if (!characters.contains(offense)) return
-        if (!characters.contains(defense)) return
+    fun assist(offense: Status, defense: Status): GameState? {
+        if (!status.contains(offense)) return null
+        if (!status.contains(defense)) return null
         // TODO: distance
         offense.assist(defense)
+        return null
     }
 }

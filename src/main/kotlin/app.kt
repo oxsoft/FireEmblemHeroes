@@ -15,25 +15,25 @@ fun main(args: Array<String>) {
     frame.isVisible = true
 
     Thread.sleep(1000)
-    gameState.move(gameState.characters[1], arrayOf(Direction.RIGHT))
+    gameState.move(gameState.status[1], arrayOf(Direction.RIGHT))
     panel.repaint()
 }
 
 private fun initGameState(): GameState {
-    val me1 = Character(Side.ME, 19, 1, 1, 1, 1, MotionType.WALK, WeaponType.AX, null, null, null, null, null, null)
-    val me2 = Character(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.NINJA, null, null, null, null, null, null)
-    val me3 = Character(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
-    val me4 = Character(Side.ME, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.GREEN_MAGIC, null, null, null, null, null, null)
-    val enemy1 = Character(Side.ENEMY, 17, 1, 1, 1, 1, MotionType.WALK, WeaponType.SPEAR, null, null, null, null, null, null)
-    val enemy2 = Character(Side.ENEMY, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
-    val enemy3 = Character(Side.ENEMY, 13, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
-    me1.position = Vector2(0, 3)
-    me2.position = Vector2(1, 3)
-    me3.position = Vector2(0, 4)
-    me4.position = Vector2(1, 4)
-    enemy1.position = Vector2(4, 3)
-    enemy2.position = Vector2(5, 4)
-    enemy3.position = Vector2(5, 5)
+    val myCharacter1 = Character(Side.ME, 19, 1, 1, 1, 1, MotionType.WALK, WeaponType.AX, null, null, null, null, null, null)
+    val myCharacter2 = Character(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.NINJA, null, null, null, null, null, null)
+    val myCharacter3 = Character(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
+    val myCharacter4 = Character(Side.ME, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.GREEN_MAGIC, null, null, null, null, null, null)
+    val enemyCharacter1 = Character(Side.ENEMY, 17, 1, 1, 1, 1, MotionType.WALK, WeaponType.SPEAR, null, null, null, null, null, null)
+    val enemyCharacter2 = Character(Side.ENEMY, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
+    val enemyCharacter3 = Character(Side.ENEMY, 13, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
+    val me1 = Status.init(myCharacter1, Vector2(0, 3))
+    val me2 = Status.init(myCharacter2, Vector2(1, 3))
+    val me3 = Status.init(myCharacter3, Vector2(0, 4))
+    val me4 = Status.init(myCharacter4, Vector2(1, 4))
+    val enemy1 = Status.init(enemyCharacter1, Vector2(4, 3))
+    val enemy2 = Status.init(enemyCharacter2, Vector2(5, 4))
+    val enemy3 = Status.init(enemyCharacter3, Vector2(5, 5))
     return GameState(Fields.STAGE_1_1, arrayOf(me1, me2, me3, me4, enemy1, enemy2, enemy3))
 }
 
@@ -59,14 +59,14 @@ private fun createGUI(gameState: GameState): JPanel {
                 }
             }
 
-            gameState.characters.forEach {
-                when (it.side) {
+            gameState.status.forEach {
+                when (it.character.side) {
                     Side.ME -> g.color = Color.BLUE
                     Side.ENEMY -> g.color = Color.RED
                 }
                 g.fillCircle(it.position * 100, 100)
 
-                when (it.weaponType.getAttackType()) {
+                when (it.character.weaponType.getAttackType()) {
                     AttackType.RED -> g.color = Color.RED
                     AttackType.BLUE -> g.color = Color.BLUE
                     AttackType.GREEN -> g.color = Color.GREEN
