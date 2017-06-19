@@ -8,14 +8,18 @@ fun main(args: Array<String>) {
     val frame = JFrame()
     frame.setSize(620, 840)
     frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-    val gameState = initGameState()
-    val panel = GameView(gameState)
+    val panel = GameView(initGameState())
     frame.add(panel)
     frame.isVisible = true
 
-    Thread.sleep(1000)
-    panel.gameState = gameState.move(1, listOf(Direction.RIGHT)) ?: gameState
-    panel.repaint()
+    (1..100).forEach {
+        (1..panel.gameState.status.size - 1).forEach {
+            Thread.sleep(100)
+            panel.gameState = panel.gameState.move(it, listOf(Direction.values()[(Math.random() * 4).toInt()])) ?: panel.gameState
+            panel.repaint()
+        }
+        panel.gameState = panel.gameState.changeTurn()
+    }
 }
 
 private fun initGameState(): GameState {

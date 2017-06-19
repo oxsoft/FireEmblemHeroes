@@ -13,6 +13,7 @@ class GameState(val turn: Side, val field: Field, val status: List<Status>) {
                 return null
             }
         }
+        if (status.filterIndexed { i, status -> i != index && status.position == position }.isNotEmpty()) return null
         return Status(target.character, target.hp, position, true)
     }
 
