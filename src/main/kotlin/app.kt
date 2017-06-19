@@ -34,5 +34,5 @@ private fun initGameState(): GameState {
     val enemy1 = Status.init(enemyCharacter1, Vector2(4, 3))
     val enemy2 = Status.init(enemyCharacter2, Vector2(5, 4))
     val enemy3 = Status.init(enemyCharacter3, Vector2(5, 5))
-    return GameState(Fields.STAGE_1_1, arrayOf(me1, me2, me3, me4, enemy1, enemy2, enemy3))
+    return GameState(Side.ME, Fields.STAGE_1_1, listOf(me1, me2, me3, me4, enemy1, enemy2, enemy3))
 }
