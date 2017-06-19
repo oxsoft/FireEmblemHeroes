@@ -29,11 +29,12 @@ class GameView(var gameState: GameState) : JPanel() {
             }
             g.fillCircle(it.position * 100, 100)
 
-            when (it.character.weaponType.getAttackType()) {
+            when (it.character.weapon?.type?.getAttackType()) {
                 AttackType.RED -> g.color = Color.RED
                 AttackType.BLUE -> g.color = Color.BLUE
                 AttackType.GREEN -> g.color = Color.GREEN
                 AttackType.NONE -> g.color = Color.GRAY
+                null -> g.color = Color.WHITE
             }
             g.fillCircle(it.position * 100 + Vector2(3, 3), 94)
 

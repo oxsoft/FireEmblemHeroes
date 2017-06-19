@@ -1,6 +1,5 @@
-import java.awt.*
+import java.awt.Graphics
 import javax.swing.JFrame
-import javax.swing.JPanel
 
 fun Graphics.fillRect(position: Vector2, size: Vector2) = this.fillRect(position.x, position.y, size.x, size.y)
 fun Graphics.fillCircle(position: Vector2, radius: Int) = this.fillOval(position.x, position.y, radius, radius)
@@ -15,18 +14,18 @@ fun main(args: Array<String>) {
     frame.isVisible = true
 
     Thread.sleep(1000)
-    panel.gameState = gameState.move(1, arrayOf(Direction.RIGHT)) ?: gameState
+    panel.gameState = gameState.move(1, listOf(Direction.RIGHT)) ?: gameState
     panel.repaint()
 }
 
 private fun initGameState(): GameState {
-    val myCharacter1 = Character(Side.ME, 19, 1, 1, 1, 1, MotionType.WALK, WeaponType.AX, null, null, null, null, null, null)
-    val myCharacter2 = Character(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.NINJA, null, null, null, null, null, null)
-    val myCharacter3 = Character(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
-    val myCharacter4 = Character(Side.ME, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.GREEN_MAGIC, null, null, null, null, null, null)
-    val enemyCharacter1 = Character(Side.ENEMY, 17, 1, 1, 1, 1, MotionType.WALK, WeaponType.SPEAR, null, null, null, null, null, null)
-    val enemyCharacter2 = Character(Side.ENEMY, 15, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
-    val enemyCharacter3 = Character(Side.ENEMY, 13, 1, 1, 1, 1, MotionType.WALK, WeaponType.SWORD, null, null, null, null, null, null)
+    val myCharacter1 = Character(Side.ME, 19, 1, 1, 1, 1, MotionType.WALK, Weapon(WeaponType.AX), null, null, null, null, null)
+    val myCharacter2 = Character(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, Weapon(WeaponType.NINJA), null, null, null, null, null)
+    val myCharacter3 = Character(Side.ME, 16, 1, 1, 1, 1, MotionType.WALK, Weapon(WeaponType.SWORD), null, null, null, null, null)
+    val myCharacter4 = Character(Side.ME, 15, 1, 1, 1, 1, MotionType.WALK, Weapon(WeaponType.GREEN_MAGIC), null, null, null, null, null)
+    val enemyCharacter1 = Character(Side.ENEMY, 17, 1, 1, 1, 1, MotionType.WALK, Weapon(WeaponType.SPEAR), null, null, null, null, null)
+    val enemyCharacter2 = Character(Side.ENEMY, 15, 1, 1, 1, 1, MotionType.WALK, Weapon(WeaponType.SWORD), null, null, null, null, null)
+    val enemyCharacter3 = Character(Side.ENEMY, 13, 1, 1, 1, 1, MotionType.WALK, Weapon(WeaponType.SWORD), null, null, null, null, null)
     val me1 = Status.init(myCharacter1, Vector2(0, 3))
     val me2 = Status.init(myCharacter2, Vector2(1, 3))
     val me3 = Status.init(myCharacter3, Vector2(0, 4))
