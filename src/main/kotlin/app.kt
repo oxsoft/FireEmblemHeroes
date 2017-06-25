@@ -1,8 +1,4 @@
-import java.awt.Graphics
 import javax.swing.JFrame
-
-fun Graphics.fillRect(position: Vector2, size: Vector2) = this.fillRect(position.x, position.y, size.x, size.y)
-fun Graphics.fillCircle(position: Vector2, radius: Int) = this.fillOval(position.x, position.y, radius, radius)
 
 fun main(args: Array<String>) {
     val frame = JFrame()

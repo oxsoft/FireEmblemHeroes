@@ -2,6 +2,9 @@ import java.awt.*
 import javax.swing.JPanel
 
 class GameView(var gameState: GameState) : JPanel() {
+    private fun Graphics.fillRect(position: Vector2, size: Vector2) = this.fillRect(position.x, position.y, size.x, size.y)
+    private fun Graphics.fillCircle(position: Vector2, radius: Int) = this.fillOval(position.x, position.y, radius, radius)
+
     override fun paint(g: Graphics?) {
         super.paint(g)
         if (g !is Graphics2D) return
