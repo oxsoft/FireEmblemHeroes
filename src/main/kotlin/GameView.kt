@@ -25,14 +25,14 @@ class GameView(var gameState: GameState) : JPanel() {
             }
         }
 
-        gameState.status.forEach {
-            when (it.character.side) {
+        gameState.character.forEach {
+            when (it.side) {
                 Side.ME -> g.color = Color.BLUE
                 Side.ENEMY -> g.color = Color.RED
             }
             g.fillCircle(it.position * 100, 100)
 
-            when (it.character.weapon?.type?.getAttackType()) {
+            when (it.weapon?.type?.getAttackType()) {
                 AttackType.RED -> g.color = Color.RED
                 AttackType.BLUE -> g.color = Color.BLUE
                 AttackType.GREEN -> g.color = Color.GREEN
