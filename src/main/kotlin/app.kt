@@ -10,9 +10,11 @@ fun main(args: Array<String>) {
 
     (1..100).forEach {
         (1..panel.gameState.character.size - 1).forEach {
-            Thread.sleep(100)
-            panel.gameState = panel.gameState.move(it, listOf(Direction.values()[(Math.random() * 4).toInt()])) ?: panel.gameState
-            panel.repaint()
+            panel.gameState.move(it, listOf(Direction.values()[(Math.random() * 4).toInt()]))?.let {
+                panel.gameState = it
+                panel.repaint()
+                Thread.sleep(100)
+            }
         }
         panel.gameState = panel.gameState.changeTurn()
     }
