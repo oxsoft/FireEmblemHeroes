@@ -1,4 +1,4 @@
-class GameState(val turn: Side, val field: Field, val character: List<Character>) {
+data class GameState(val turn: Side, val field: Field, val character: List<Character>) {
 
     private fun moveInternal(index: Int, motion: List<Direction>): Character? {
         val target = character[index]
@@ -14,39 +14,37 @@ class GameState(val turn: Side, val field: Field, val character: List<Character>
             }
         }
         if (character.filterIndexed { i, character -> i != index && character.position == position }.isNotEmpty()) return null
-        return target.copy(position = position, acted = true)
+        return target.copy(position = position)
     }
 
     fun move(index: Int, motion: List<Direction>): GameState? {
         val moved = moveInternal(index, motion) ?: return null
-        val updated = character.mapIndexed { i, character -> if (i == index) moved else character }
-        return GameState(turn, field, updated)
+        val updated = character.mapIndexed { i, character -> if (i == index) moved.copy(acted = true) else character }
+        return copy(character = updated)
     }
 
     fun attack(offenseIndex: Int, defenseIndex: Int, motion: List<Direction>): GameState? {
         val offense = moveInternal(offenseIndex, motion) ?: return null
         val defense = character[defenseIndex]
-        if (defense.acted) return null
         if (offense.side != turn) return null
         if (defense.side == turn) return null
         offense.weapon ?: return null
         if (offense.position.distance(defense.position) != offense.weapon.type.getRange()) return null
         val p: Pair<Character, Character> = offense.attack(defense) ?: return null
-        val updated = character.mapIndexed { i, character -> if (i == offenseIndex) p.first else if (i == defenseIndex) p.second else character }
-        return GameState(turn, field, updated)
+        val updated = character.mapIndexed { i, character -> if (i == offenseIndex) p.first else if (i == defenseIndex) p.second else character }.map { if (it.hp > 0) it else it.copy(position = Vector2(-1, -1)) }
+        return copy(character = updated)
     }
 
     fun assist(offenseIndex: Int, defenseIndex: Int, motion: List<Direction>): GameState? {
         val offense = moveInternal(offenseIndex, motion) ?: return null
         val defense = character[defenseIndex]
-        if (defense.acted) return null
         if (offense.side != turn) return null
         if (defense.side == turn) return null
         offense.assist ?: return null
         if (offense.position.distance(defense.position) != offense.assist.distance) return null
         val p: Pair<Character, Character> = offense.assist(defense) ?: return null
         val updated = character.mapIndexed { i, character -> if (i == offenseIndex) p.first else if (i == defenseIndex) p.second else character }
-        return GameState(turn, field, updated)
+        return copy(character = updated)
     }
 
     fun changeTurn(): GameState {
@@ -54,6 +52,6 @@ class GameState(val turn: Side, val field: Field, val character: List<Character>
             Side.ENEMY -> Side.ME
         }
         val updated = character.map { if (it.side == next) it.startTurn() else it }
-        return GameState(next, field, updated)
+        return copy(turn = next, character = updated)
     }
 }
