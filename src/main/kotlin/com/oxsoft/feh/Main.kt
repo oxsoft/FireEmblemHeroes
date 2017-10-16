@@ -13,13 +13,12 @@ object Main {
         frame.isVisible = true
 
         (1..10000).forEach {
-            (0..panel.gameState.character.size - 1).forEach {
-                val me = it
+            (0 until panel.gameState.character.size).forEach { me ->
                 var newState: GameState? = null
-                (0..panel.gameState.character.size - 1).forEach {
+                (0 until panel.gameState.character.size).forEach {
                     newState = newState ?: panel.gameState.attack(me, it, listOf())
                 }
-                newState = newState ?: panel.gameState.move(it, listOf(Direction.values()[(Math.random() * 4).toInt()]))
+                newState = newState ?: panel.gameState.move(me, listOf(Direction.values()[(Math.random() * 4).toInt()]))
                 newState?.let {
                     panel.gameState = it
                     panel.repaint()

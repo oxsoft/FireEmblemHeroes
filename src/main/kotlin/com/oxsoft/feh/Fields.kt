@@ -50,7 +50,7 @@ class Fields {
         val STAGE_9_4 = parse("")
         val STAGE_9_5 = parse("")
 
-        fun parse(src: String): Field {
+        private fun parse(src: String): Field {
             val rows = ArrayList<Array<CellType>>()
             val row = ArrayList<CellType>()
             src.forEach {

@@ -6,12 +6,10 @@ enum class CellType {
     RIVER,
     WALL;
 
-    fun isPassable(motionType: MotionType): Boolean {
-        when (this) {
-            NORMAL -> return true
-            FOREST -> return motionType != MotionType.HORSE
-            RIVER -> return motionType == MotionType.FLYING
-            WALL -> return false
-        }
+    fun isPassable(motionType: MotionType): Boolean = when (this) {
+        NORMAL -> true
+        FOREST -> motionType != MotionType.HORSE
+        RIVER -> motionType == MotionType.FLYING
+        WALL -> false
     }
 }
