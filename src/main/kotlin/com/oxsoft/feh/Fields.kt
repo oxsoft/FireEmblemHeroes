@@ -1,3 +1,5 @@
+package com.oxsoft.feh
+
 import java.util.*
 
 class Fields {

@@ -1,3 +1,5 @@
+package com.oxsoft.feh
+
 data class GameState(val turn: Side, val field: Field, val character: List<Character>) {
 
     private fun moveInternal(index: Int, motion: List<Direction>): Character? {

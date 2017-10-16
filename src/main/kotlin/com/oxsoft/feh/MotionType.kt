@@ -1,3 +1,5 @@
+package com.oxsoft.feh
+
 enum class MotionType(val range: Int) {
     WALK(2),
     HEAVY(1),

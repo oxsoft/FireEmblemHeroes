@@ -1,3 +1,5 @@
+package com.oxsoft.feh
+
 import java.awt.*
 import javax.swing.JPanel
 

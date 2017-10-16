@@ -1,3 +1,5 @@
+package com.oxsoft.feh
+
 import javax.swing.JFrame
 
 object Main {

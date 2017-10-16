@@ -1,3 +1,5 @@
+package com.oxsoft.feh
+
 data class Character(
         val side: Side,
         val maxHp: Int,

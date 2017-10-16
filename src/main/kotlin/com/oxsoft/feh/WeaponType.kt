@@ -1,3 +1,5 @@
+package com.oxsoft.feh
+
 enum class WeaponType {
     SWORD,
     SPEAR,
@@ -21,10 +23,10 @@ enum class WeaponType {
 
     fun getAttackType(): AttackType {
         when (this) {
-            WeaponType.SWORD, WeaponType.RED_MAGIC, WeaponType.RED_DRAGON -> return AttackType.RED
-            WeaponType.SPEAR, WeaponType.BLUE_MAGIC, WeaponType.BLUE_DRAGON -> return AttackType.BLUE
-            WeaponType.AX, WeaponType.GREEN_MAGIC, WeaponType.GREEN_DRAGON -> return AttackType.GREEN
-            WeaponType.BOW, WeaponType.NINJA, WeaponType.WAND -> return AttackType.NONE
+            SWORD, RED_MAGIC, RED_DRAGON -> return AttackType.RED
+            SPEAR, BLUE_MAGIC, BLUE_DRAGON -> return AttackType.BLUE
+            AX, GREEN_MAGIC, GREEN_DRAGON -> return AttackType.GREEN
+            BOW, NINJA, WAND -> return AttackType.NONE
         }
     }
 
